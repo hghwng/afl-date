@@ -44,7 +44,11 @@ endif
 
 COMM_HDR    = alloc-inl.h config.h debug.h types.h
 
-all: test_x86 $(PROGS) afl-as test_build all_done
+all: test_x86 $(PROGS) afl-as test_build all_done llvm_mode
+
+.PHONY: llvm_mode
+llvm_mode:
+	$(MAKE) -C llvm_mode
 
 ifndef AFL_NO_X86
 
