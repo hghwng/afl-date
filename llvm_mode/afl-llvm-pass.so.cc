@@ -39,6 +39,9 @@
 #include "llvm/Transforms/IPO/PassManagerBuilder.h"
 
 using namespace llvm;
+namespace llvm {
+  int DisableABIBreakingChecks;
+};
 
 namespace {
 
