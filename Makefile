@@ -18,7 +18,7 @@ VERSION     = $(shell grep '^\#define VERSION ' config.h | cut -d '"' -f2)
 
 PREFIX     ?= /usr/local
 BIN_PATH    = $(PREFIX)/bin
-HELPER_PATH = $(PREFIX)/lib/afl
+HELPER_PATH = $(PREFIX)/bin
 DOC_PATH    = $(PREFIX)/share/doc/afl
 MISC_PATH   = $(PREFIX)/share/afl
 
