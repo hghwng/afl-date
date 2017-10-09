@@ -205,6 +205,7 @@ static void edit_params(u32 argc, char** argv) {
 
 #endif /* USE_TRACE_PC */
 
+  cc_params[cc_par_cnt++] = "-fPIC";
   if (!getenv("AFL_DONT_OPTIMIZE")) {
 
     cc_params[cc_par_cnt++] = "-g";
@@ -349,6 +350,12 @@ int main(int argc, char** argv) {
 
   edit_params(argc, argv);
 
+  if (!getenv("AFL_QUIET")) {
+    ACTF("NewArgs:");
+    for (u8 **p = cc_params; *p; ++p) {
+      SAYF(" %s", *p);
+    }
+  }
   execvp(cc_params[0], (char**)cc_params);
 
   FATAL("Oops, failed to execute '%s' - check your PATH", cc_params[0]);
