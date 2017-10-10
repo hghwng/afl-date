@@ -2402,7 +2402,7 @@ EXP_ST void init_forkserver(char** argv) {
     /* Set sane defaults for ASAN if nothing else specified. */
 
     setenv("ASAN_OPTIONS", "abort_on_error=1:"
-                           "detect_leaks=0:"
+                           "detect_leaks=1:"
                            "symbolize=0:"
                            "allocator_may_return_null=1", 0);
 
