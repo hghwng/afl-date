@@ -2669,7 +2669,7 @@ static u8 run_target(char** argv, u32 timeout) {
       /* Set sane defaults for ASAN if nothing else specified. */
 
       setenv("ASAN_OPTIONS", "abort_on_error=1:"
-                             "detect_leaks=0:"
+                             "detect_leaks=1:"
                              "symbolize=0:"
                              "allocator_may_return_null=1", 0);
 
