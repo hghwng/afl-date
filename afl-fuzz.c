@@ -4457,7 +4457,7 @@ static void show_stats(void) {
      together, but then cram them into a fixed-width field - so we need to
      put them in a temporary buffer first. */
 
-  sprintf(tmp, "%s%s%d (%0.02f%%)", DI(current_entry),
+  sprintf(tmp, "%s%s (%0.02f%%)", DI(current_entry),
           queue_cur->favored ? "." : "*",
           ((double)current_entry * 100) / queued_paths);
 
