@@ -4454,7 +4454,7 @@ static void show_stats(void) {
      put them in a temporary buffer first. */
 
   sprintf(tmp, "%s%s%d (%0.02f%%)", DI(current_entry),
-          queue_cur->favored ? "." : "*", queue_cur->fuzz_level,
+          queue_cur->favored ? "." : "*",
           ((double)current_entry * 100) / queued_paths);
 
   SAYF(bV bSTOP "  now processing : " cRST "%-12s " bSTG bV bSTOP, tmp);
