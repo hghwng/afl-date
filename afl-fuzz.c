@@ -882,7 +882,8 @@ static void mark_as_redundant(struct queue_entry* q, u8 state) {
 
 /* True if branch_ids contains branch_id*/
 static int contains_id(int branch_id, int* branch_ids){
-  for (int i = 0; branch_ids[i] != -1; i++){
+  int i = 0;
+  for (i = 0; branch_ids[i] != -1; i++){
     if (branch_ids[i] == branch_id) return 1;
 	}
   return 0; 
@@ -893,8 +894,8 @@ static int* get_lowest_hit_branch_ids(){
   int * rare_branch_ids = ck_alloc(sizeof(int) * MAX_RARE_BRANCHES);
   int lowest_hob = INT_MAX;
   int ret_list_size = 0;
-
-  for (int i = 0; (i < MAP_SIZE) && (ret_list_size < MAX_RARE_BRANCHES - 1); i++){
+  int i = 0;
+  for (i = 0; (i < MAP_SIZE) && (ret_list_size < MAX_RARE_BRANCHES - 1); i++){
     // ignore unseen branches. sparse array -> unlikely 
     if (unlikely(hit_bits[i] > 0)){
       if (contains_id(i, blacklist)) continue;
@@ -949,8 +950,8 @@ static u32 * is_rb_hit_mini(u8* trace_bits_mini){
   u32 * branch_ids = ck_alloc(sizeof(u32) * MAX_RARE_BRANCHES);
   u32 * branch_cts = ck_alloc(sizeof(u32) * MAX_RARE_BRANCHES);
   int min_hit_index = 0;
-
-  for (int i = 0; i < MAP_SIZE ; i ++){
+  int i = 0;
+  for (i = 0; i < MAP_SIZE ; i ++){
 ;
       if (unlikely (trace_bits_mini[i >> 3]  & (1 <<(i & 7)) )){
         int cur_index = i;
@@ -1011,7 +1012,8 @@ static u32 get_random_modifiable_posn(u32 num_to_modify, u8 mod_type, u32 map_le
   u32 position_map_len = 0;
   int prev_start_of_1_block = -1;
   int in_0_block = 1;
-  for (int i = 0; i < map_len; i ++){
+  int i = 0,j;
+  for (i = 0; i < map_len; i ++){
     if (branch_mask[i] & mod_type){
       // if the last thing we saw was a zero, set
       // to start of 1 block
@@ -1024,7 +1026,7 @@ static u32 get_random_modifiable_posn(u32 num_to_modify, u8 mod_type, u32 map_le
       // we know the last index was the last 1 in the line
       if ((!in_0_block) &&(prev_start_of_1_block != -1)){
         int num_bytes = MAX(num_to_modify/8, 1);
-        for (int j = prev_start_of_1_block; j < i-num_bytes + 1; j++){
+        for (j = prev_start_of_1_block; j < i-num_bytes + 1; j++){
             // I hate this ++ within operator stuff
             position_map[position_map_len++] = j;
         }
@@ -1036,8 +1038,9 @@ static u32 get_random_modifiable_posn(u32 num_to_modify, u8 mod_type, u32 map_le
 
   // if we ended not in a 0 block, add it in too 
   if (!in_0_block) {
+	u32 j;  
     u32 num_bytes = MAX(num_to_modify/8, 1);
-    for (u32 j = prev_start_of_1_block; j < map_len-num_bytes + 1; j++){
+    for (j = prev_start_of_1_block; j < map_len-num_bytes + 1; j++){
         // I hate this ++ within operator stuff
         position_map[position_map_len++] = j;
     }
@@ -1061,8 +1064,8 @@ static u32 get_random_insert_posn(u32 map_len, u8* branch_mask, u32 * position_m
 
   u32 position_map_len = 0;
   u32 ret = map_len;
-
-  for (u32 i = 0; i <= map_len; i++){
+  u32 i = 0;
+  for (i = 0; i <= map_len; i++){
     if (branch_mask[i] & 4)
       position_map[position_map_len++] = i;
   }
@@ -3453,7 +3456,8 @@ static void write_crash_readme(void) {
 /* increment hit bits by 1 for every element of trace_bits that has been hit.
  effectively counts that one input has hit each element of trace_bits */
 static void increment_hit_bits(){
-  for (int i = 0; i < MAP_SIZE; i++){
+  int i = 0;
+  for (i = 0; i < MAP_SIZE; i++){
     if ((trace_bits[i] > 0) && (hit_bits[i] < ULONG_MAX))
       hit_bits[i]++;
   }
@@ -5463,7 +5467,7 @@ static u8 fuzz_one(char** argv) {
   }
 
 #endif /* ^IGNORE_FINDS */
-
+  int k;
   /* select inputs which hit rare branches */
   if (!vanilla_afl) {
     skip_deterministic_bootstrap = 0;
@@ -5485,7 +5489,7 @@ static u8 fuzz_one(char** argv) {
             // let's try the next one
             continue;
           } else {
-            for (int k = 0; k < MAP_SIZE >> 3; k ++){
+            for (k = 0; k < MAP_SIZE >> 3; k ++){
               if (queue_cur->fuzzed_branches[k] != 0){
                 DEBUG1("We fuzzed this guy already\n");
                 skip_simple_bitflip = 1;
@@ -6735,8 +6739,8 @@ skip_interest:
  
       if (rb_fuzzing ){//&& use_mask()){
       // if any fall outside the mask, skip
-        int bailing = 0;
-        for (int ii = 0; ii < extras[j].len; ii ++){
+        int bailing = 0,ii;
+        for (ii = 0; ii < extras[j].len; ii ++){
           if (!(branch_mask[i + ii] & 1)){
             bailing = 1;
             break;
@@ -6860,8 +6864,8 @@ skip_user_extras:
       // if any fall outside the mask, skip
       if (rb_fuzzing){ 
       // if any fall outside the mask, skip
-        int bailing = 0;
-        for (int ii = 0; ii < a_extras[j].len; ii ++){
+        int bailing = 0,ii;
+        for (ii = 0; ii < a_extras[j].len; ii ++){
           if (!(branch_mask[i + ii] & 1)){
             bailing = 1;
             break;
