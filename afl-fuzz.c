@@ -427,9 +427,7 @@ static void dump_to_logs() {
   unlink(fn); /* Ignore errors */
   branch_hit_fd = open(fn, O_CREAT | O_WRONLY | O_TRUNC, 0600);
   if (branch_hit_fd < 0) PFATAL("Unable to create '%s'", fn);
-  ck_
-	  
-	  (branch_hit_fd, hit_bits, sizeof(u64) * MAP_SIZE, fn);
+  ck_write(branch_hit_fd, hit_bits, sizeof(u64) * MAP_SIZE, fn);
   ck_free(fn);
   close(branch_hit_fd);
 }
