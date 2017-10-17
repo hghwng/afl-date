@@ -427,7 +427,9 @@ static void dump_to_logs() {
   unlink(fn); /* Ignore errors */
   branch_hit_fd = open(fn, O_CREAT | O_WRONLY | O_TRUNC, 0600);
   if (branch_hit_fd < 0) PFATAL("Unable to create '%s'", fn);
-  ck_write(branch_hit_fd, hit_bits, sizeof(u64) * MAP_SIZE, fn);
+  ck_
+	  
+	  (branch_hit_fd, hit_bits, sizeof(u64) * MAP_SIZE, fn);
   ck_free(fn);
   close(branch_hit_fd);
 }
@@ -3740,6 +3742,7 @@ static void write_stats_file(double bitmap_cvg, double stability, double eps) {
 
   u8* fn = alloc_printf("%s/fuzzer_stats", out_dir);
   s32 fd;
+  u32 t_bytes, t_bits;
   FILE* f;
 
   fd = open(fn, O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -3764,7 +3767,8 @@ static void write_stats_file(double bitmap_cvg, double stability, double eps) {
     last_stab = stability;
     last_eps  = eps;
   }
-
+  t_bits = (MAP_SIZE << 3) - count_bits(virgin_bits);
+  t_bytes = count_non_255_bytes(virgin_bits); 
   fprintf(f, "start_time        : %llu\n"
              "last_update       : %llu\n"
              "fuzzer_pid        : %u\n"
